@@ -1,0 +1,5 @@
+pyodbc
+flask
+apache-airflow
+Flask-WTF
+flask_limiter
