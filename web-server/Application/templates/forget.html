@@ -10,8 +10,9 @@
   <link rel="stylesheet" href="{{ url_for('static',filename='dist/css/adminlte.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static',filename='plugins/toastr/toastr.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static',filename='plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
-
+  <script src="https://www.google.com/recaptcha/api.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -21,9 +22,9 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Đăng nhập</p>
+      <p class="login-box-msg">Yêu cầu mật khẩu mới</p>
 
-      <form action="/login" method="post">
+      <form action="/forget" method="post">
         <div class="input-group mb-3">
           <input type="text" name="username" class="form-control" placeholder="tên đăng nhập">
           <div class="input-group-append">
@@ -32,22 +33,15 @@
             </div>
           </div>
         </div>
-        <div class="input-group mb-3">
-          <input type="password" name="password" class="form-control" placeholder="mật khẩu">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
+        
         <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-            </div>
+          <div class="g-recaptcha" data-sitekey="{{ pub_key }}"></div>
+          <div class="col-6">
+            <button type="submit" class="btn btn-primary">Mật khẩu mới</button>
           </div>
-          <div class="col-4">
+          <div class="col-6">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-            <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+            <a href="/login" >Đăng nhập</a>
           </div>
         </div>
       </form>   

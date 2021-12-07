@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>{{error}}</title>
   <style>
     body,
 html {
@@ -256,9 +256,10 @@ html {
 <body>
   <div class="container">
     <div class="error">
-        <h1>Detect CSRF</h1>
+        <h1>{{error}}</h1>
         <h2>error</h2>
         <p>{{reason}}</p>
+        <a href="/" style="color:#3f3f3f"><h3>Về trang chủ</h3>  </a>
     </div>
     <div class="stack-container">
         <div class="card-container">

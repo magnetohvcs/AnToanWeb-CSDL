@@ -83,7 +83,7 @@
           </li>
           <li class="nav-item menu-open">
             <a href="/student" class="nav-link ">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-atom"></i>
               <p>
                 Quản lý sinh viên
                 <i class="right fas "></i>
@@ -92,7 +92,7 @@
           </li>
           <li class="nav-item menu-open">
             <a href="/staff" class="nav-link ">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Quản lý nhân viên
                 <i class="right fas "></i>
@@ -101,7 +101,7 @@
           </li>
           <li class="nav-item menu-open">
             <a href="/class" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-school"></i>
               <p>
                 Quản lý lớp học
                 <i class="right fas "></i>
@@ -109,8 +109,26 @@
             </a>
           </li>
           <li class="nav-item menu-open">
+            <a href="/subject" class="nav-link">
+              <i class="nav-icon fas fa-book-reader"></i>
+              <p>
+                Quản lý học phần
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
+            <a href="/academy" class="nav-link ">
+              <i class="nav-icon fas fa-school"></i>
+              <p>
+                Bảng điểm
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
             <a href="/mail" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-envelope-open-text"></i>
               <p>
                 Mail
                 <i class="right fas "></i>
@@ -119,7 +137,7 @@
           </li>
           <li class="nav-item menu-open">
             <a href="/signout" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Đăng xuất
                 <i class="right fas "></i>
@@ -154,29 +172,10 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Lịch sử truy vấn cơ sở dữ liệu</h3>
+                <h3 class="card-title">Trang chủ</h3>
               </div>
               <div class="card-body">
-                <table id="example1_wrapper" class="table table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th>STT</th>
-                      <th>Nội Dung</th>
-                      <th>Chi Tiết</th>
-                      <th>Kết Quả</th>
-                      <th>Thời Gian</th>
-                    </tr>
-                  </thead>
-                  <tbody id='table-history'>
-                    {% for value in data %}
-                    <tr>
-                      {% for v in value %}
-                      <td>{{v}}</td>
-                      {% endfor %}
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+                  <h1>Quản lý sinh viên</h1>
               </div>
             </div>
           </div>
@@ -188,11 +187,7 @@
   <aside class="control-sidebar control-sidebar-dark"></aside>
 
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.1.0
-    </div>
+    
   </footer>
 </div>
 

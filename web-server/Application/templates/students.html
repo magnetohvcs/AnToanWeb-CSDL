@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quản lý sinh viên</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="{{ url_for('static',filename='plugins/fontawesome-free/css/all.min.css') }}">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="{{ url_for('static',filename='dist/css/adminlte.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static',filename='plugins/toastr/toastr.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="/" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Contact</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+          <i class="fas fa-th-large"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="/" class="brand-link">
+      <img src="{{ url_for('static',filename='dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Quản Lý Sinh Viên</span>
+    </a>
+    <div class="sidebar">
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{ url_for('static',filename='dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">Alexander Pierce</a>
+        </div>
+      </div>
+      <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item menu-open">
+            <a href="/" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Trang chủ
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+
+    
+          <li class="nav-item menu-open">
+            <a href="/student" class="nav-link active">
+              <i class="nav-icon fas fa-atom"></i>
+              <p>
+                Quản lý sinh viên
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li> 
+          
+          <li class="nav-item menu-open">
+            <a href="/staff" class="nav-link ">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Quản lý nhân viên
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
+            <a href="/class" class="nav-link">
+              <i class="nav-icon fas fa-school"></i>
+              <p>
+                Quản lý lớp học
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
+            <a href="/subject" class="nav-link">
+              <i class="nav-icon fas fa-book-reader"></i>
+              <p>
+                Quản lý học phần
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
+            <a href="/academy" class="nav-link ">
+              <i class="nav-icon fas fa-school"></i>
+              <p>
+                Bảng điểm
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
+            <a href="/mail" class="nav-link">
+              <i class="nav-icon fas fa-envelope-open-text"></i>
+              <p>
+                Mail
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
+            <a href="/signout" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>
+                Đăng xuất
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Quản lý sinh viên</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+              <li class="breadcrumb-item active">Quản lý sinh viên</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Danh sách sinh viên</h3>
+                <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#addStaff">
+                  <i class="fas fa-plus">
+                  </i>
+                </a>
+              </div>
+              <div class="card-body">
+                <table id="example1_wrapper" class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>Mã Sinh Viên</th>
+                      <th>Họ Tên</th>
+                      <th>Ngày Sinh</th>
+                      <th>Địa Chỉ</th>
+                      <th>Mã Lớp</th>
+                      <th>Chỉnh Sửa</th>
+                      <th>Xóa</th>
+                    </tr>
+                  </thead>
+                  <tbody id='table-student'>
+                    {% for value in data %}
+                    <tr>
+                        {% for v in value%}
+                          <td>{{"" if v==None else v}}</td>
+                        {% endfor %}
+                        <td>
+                          <a class="btn btn-info btn-sm"  onclick="editStudentBtn(this)" data-toggle="modal" data-target="#editStudent">
+                            <i class="fas fa-pencil-alt">
+                            </i>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="btn btn-danger btn-sm" onclick="deleteClassBtn(this)" data-toggle="modal" data-target="#deleteClass">
+                            <i class="fas fa-trash">
+                            </i>
+                          </a>
+                        </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
+      </div>
+
+    </div>
+
+  </div>
+
+  <aside class="control-sidebar control-sidebar-dark"></aside>
+
+  <footer class="main-footer">
+    <strong> <a href="/">Quản lý sinh viên</a>.</strong>
+    <div class="float-right d-none d-sm-inline-block">
+    </div>
+  </footer>
+</div>
+
+<div id="deleteClass" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="header-delteclass"> </h4>
+        <button type="button" class="closeform-btn close"  data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-4">
+              <form id="deleteClassform">
+                <input type="hidden" name="id" value="" >
+                <button type="submit"  class="btn btn-default btn-primary" >Có</button>
+              </form>
+            </div>
+            <div class="col-4">
+              <button class="btn btn-info btn-primary" data-dismiss="modal"> Không </button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function deleteClassBtn(e){
+    var list = $(e).parents()[1].children;
+    $("#header-delteclass").html(`Bạn có muốn xóa sinh viên ${list[1].textContent} có mã là ${list[0].textContent}`);
+    $("#deleteClassform input")[0].value=list[0].textContent;
+  }
+  $("#deleteClassform").submit(function(e){
+    e.preventDefault();
+      $(function(){
+        var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+        });
+     
+        $.ajax({
+            type: "POST",
+            url: '/api/delStudent',
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+            },
+            data: $("#deleteClassform").serialize(),
+            success: function(data){  
+              var res = data['isSuccess'];
+              if(res==true){
+                  $(".closeform-btn").click();
+                  Toast.fire({
+                      icon: 'success',
+                      title: 'Xóa thành công'
+                  });
+                  var id = $("#deleteClassform").serializeArray()[0]['value'];
+                  var listTr = $("tr");
+        
+                  for(var index = 1;index < listTr.length;index++){
+                    var temp = listTr[index];
+                    if(temp.children[0].textContent==id){
+                        $(temp).remove();
+                        break;
+                    }
+                  }
+              } else if(res==false){
+                Toast.fire({
+                      icon: 'error',
+                      title: 'Thất bại'
+                    })
+              } else{
+                Toast.fire({
+                      icon: 'warning',
+                      title: "!"
+                    })
+              }}
+          })
+        })
+      })
+</script>
+<!-- Modal -->
+<div id="editStudent" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Chỉnh sửa thông tin sinh viên</h4>
+        <button type="button" class="closeform-btn"  class="close " data-dismiss="modal">&times;</button>
+       
+      </div>
+      <div class="modal-body">
+        <form action="" id="edit-student-form" >
+          <div class="form-group">
+            <label for="idStudent">Mã Sinh Viên</label>
+    
+            <input type="text" readonly name="idStudent" class="form-control form-control-border" >
+          </div>
+          <div class="form-group">
+            <label for="name">Họ Tên</label>
+            <input type="text" name="name" class="form-control form-control-border"  >
+          </div>
+          <div class="form-group">
+            <label for="birthday">Ngày Sinh</label>
+            <input type="date" name="birthday" class="form-control form-control-border"  >
+          </div>
+          <div class="form-group">
+            <label for="address">Địa Chỉ</label>
+            <input type="text" name="address" class="form-control form-control-border"  >
+          </div>
+          <div class="form-group">
+            <label for="idClass">Mã Lớp</label>
+            <input type="text" name="idClass" class="form-control form-control-border"  >
+          </div>
+          <div class="card-footer">
+            <button type="submit"  class="btn btn-primary">Lưu</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+ 
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function editStudentBtn(e){
+    var list = $(e).parents()[1].children;
+    var list2 = $("#edit-student-form input");
+    list2[0].value =list[0].textContent;
+    list2[1].value =list[1].textContent;
+    list2[2].value =list[2].textContent;
+    list2[3].value =list[3].textContent;
+    list2[4].value =list[4].textContent;
+  }
+</script>
+
+<script>
+  var form = $("#edit-student-form");
+  form.submit(function(e){
+    e.preventDefault();
+    $(function(){
+      var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+    $.ajax({
+           type: "POST",
+           url: '/api/editStudent',
+           beforeSend: function(xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+          },
+           data: form.serialize(),
+           success: function(data){  
+             var res = data['isSuccess'];
+             if(res==true){
+                $(".closeform-btn").click();
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Cập nhật thành công'
+                });
+                var listData = form.serializeArray();
+                var id = listData[0]['value'];
+                var listTr = $("tr");
+       
+                for(var index = 1;index < listTr.length;index++){
+                  var temp = listTr[index];
+                  if(temp.children[0].textContent==id){
+                    for(var i=1;i<5;i++){
+                      temp.children[i].textContent = listData[i]['value'];
+                    }
+                    break;
+                  }
+                }
+                
+             } else if(res==false){
+              Toast.fire({
+                    icon: 'error',
+                    title: 'Cập nhật thất bại'
+                  })
+             } else{
+              Toast.fire({
+                    icon: 'warning',
+                    title: res
+                  })
+             }}})})})
+</script>
+
+<div id="addStaff" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thêm sinh viên</h4>
+        <button type="button" class="closeform-btn" class="close " data-dismiss="modal">&times;</button>
+
+      </div>
+      <div class="modal-body">
+        <form id="add-staff-form">
+          <div class="form-group">
+            <label for="id">Mã sinh viên</label>
+            <input type="text" name="id" class="form-control form-control-border">
+          </div>
+          <div class="form-group">
+            <label for="name">Họ tên</label>
+            <input type="text" name="name" class="form-control form-control-border">
+          </div>
+          <div class="form-group">
+            <label for="email">Ngày sinh</label>
+            <input type="date" name="birthday" class="form-control form-control-border">
+          </div>
+          <div class="form-group">
+            <label for="salary">Địa chỉ</label>
+            <input type="text" name="address" class="form-control form-control-border">
+          </div>
+          <div class="form-group">
+            <label for="salary">Mã lớp</label>
+            <input type="text" name="idClass" class="form-control form-control-border">
+          </div>
+          
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $("#add-staff-form").submit(function (e) {
+        e.preventDefault();
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+          });
+          console.log( $("#add-staff-form").serialize());
+          $.ajax({
+            type: "POST",
+            url: '/api/addStudent',
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+            },
+            data: $("#add-staff-form").serialize(),
+            success: function (data) {
+              var res = data['isSuccess'];
+              if (res == true) {
+                $(".closeform-btn").click();
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Cập nhật thành công'
+                });
+                var listData = $("#add-staff-form").serializeArray();
+                $("#table-student").append(`
+                 <tr >
+                          <td class="dtr-control" tabindex="0">${listData[0].value}</td>
+                          <td>${listData[1].value}</td>
+                          <td>${listData[2].value}</td> 
+                          <td>${listData[3].value}</td>                    
+                          <td>${listData[4].value}</td>                     
+                          <td>
+                            <a class="btn btn-info btn-sm"  onclick="editStudentBtn(this)" data-toggle="modal" data-target="#editStudent">
+                              <i class="fas fa-pencil-alt">
+                              </i>
+                            </a>
+                          </td>
+                          <td>
+                            <a class="btn btn-danger btn-sm" onclick="deleteClassBtn(this)" data-toggle="modal" data-target="#deleteClass">
+                              <i class="fas fa-trash">
+                              </i>
+                            </a>
+                          </td>
+                    </tr>
+                  `);
+                
+              } else if (res == false) {
+                Toast.fire({
+                  icon: 'error',
+                  title: 'Cập nhật thất bại'
+                })
+              } else {
+                Toast.fire({
+                  icon: 'warning',
+                  title: res
+                })
+              }
+            }
+          })
+        })
+      })
+    </script>
+
+<script src="{{ url_for('static',filename='plugins/toastr/toastr.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static',filename='dist/js/adminlte.min.js') }}"></script>
+<script src="{{ url_for('static',filename='dist/js/demo.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+<script>
+  $(function () {
+    $("#example1_wrapper").DataTable({
+      "responsive": true, "lengthChange": true, "autoWidth": false
+    });
+  });
+</script>
+
+</body>
+</html>

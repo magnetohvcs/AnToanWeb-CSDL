@@ -83,9 +83,10 @@
               </p>
             </a>
           </li>
+    
           <li class="nav-item menu-open">
-            <a href="/student" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <a href="/student" class="nav-link">
+              <i class="nav-icon fas fa-atom"></i>
               <p>
                 Quản lý sinh viên
                 <i class="right fas "></i>
@@ -94,7 +95,7 @@
           </li> 
           <li class="nav-item menu-open">
             <a href="/staff" class="nav-link ">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Quản lý nhân viên
                 <i class="right fas "></i>
@@ -103,25 +104,46 @@
           </li>
           <li class="nav-item menu-open">
             <a href="/class" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-school"></i>
               <p>
                 Quản lý lớp học
                 <i class="right fas "></i>
               </p>
             </a>
           </li>
+
           <li class="nav-item menu-open">
-            <a href="/mail" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <a href="/subject" class="nav-link">
+              <i class="nav-icon fas fa-book-reader"></i>
+              <p>
+                Quản lý học phần
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
+            <a href="/academy" class="nav-link ">
+              <i class="nav-icon fas fa-school"></i>
+              <p>
+                Bảng điểm
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item menu-open">
+            <a href="/mail" class="nav-link active">
+              <i class="nav-icon fas fa-envelope-open-text"></i>
               <p>
                 Mail
                 <i class="right fas "></i>
               </p>
             </a>
           </li>
+          
           <li class="nav-item menu-open">
             <a href="/signout" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Đăng xuất
                 <i class="right fas "></i>
@@ -140,12 +162,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Quản lý sinh viên</h1>
+            <h1 class="m-0">Mail</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-              <li class="breadcrumb-item active">Quản lý sinh viên</li>
+              <li class="breadcrumb-item active">Mail</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -160,50 +182,56 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Danh sách sinh viên</h3>
+                <h3 class="card-title">Mail 
+                  <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#addMail">
+                    <i class="fas fa-plus">
+                      Soạn Mail
+                    </i>
+                  </a>
+                </h3>
               </div>
               <div class="card-body">
-                <table id="example1_wrapper" class="table table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th>Mã Sinh Viên</th>
-                      <th>Họ Tên</th>
-                      <th>Ngày Sinh</th>
-                      <th>Địa Chỉ</th>
-                      <th>Mã Lớp</th>
-                      <th>Chỉnh Sửa</th>
-                    </tr>
-                  </thead>
-                  <tbody id='table-student'>
+                <div class="row">
+                  <div class="col-sm">
+                    Người gửi
+                  </div>
+                  <div class="col-sm">
+                    Người nhận
+                  </div>
+                  <div class="col-sm">
+                   Tiêu đề
+                  </div>
+                  <div class="col-sm">
+                    Thời gian
+                   </div>
+                </div>
                     {% for value in data %}
-                    <tr>
-                        {% for v in value%}
-                          <td>{{"Trống" if v==None else v}}</td>
-                        {% endfor %}
-                        <td>
-                          <a class="btn btn-info btn-sm"  onclick="editStudentBtn(this)" data-toggle="modal" data-target="#editStudent">
-                            <i class="fas fa-pencil-alt">
-                            </i>
-                        </a>
-                        </td>
-                    </tr>
-                  {% endfor %}
-                  </tbody>
-                </table>
+                    <a href="/api/mail/{{value[0]}}">
+                      <div class="row">
+                        <div class="col-sm">
+                          {{value[1]}}
+                        </div>
+                        <div class="col-sm">
+                          {{value[2]}}
+                        </div>
+                        <div class="col-sm">
+                          {{value[3]}}
+                        </div>
+                        <div class="col-sm">
+                          {{value[4]}}
+                         </div>
+                      </div>
+                    </a>
+                    {% endfor %}
               </div>
             </div>
           </div>
         </div>
-        <!-- /.row -->
       </div>
-
     </div>
-
   </div>
 
-  <aside class="control-sidebar control-sidebar-dark">
-
-  </aside>
+  <aside class="control-sidebar control-sidebar-dark"></aside>
 
   <footer class="main-footer">
     <strong> <a href="/">Quản lý sinh viên</a>.</strong>
@@ -212,116 +240,38 @@
   </footer>
 </div>
 
-<!-- Modal -->
-<div id="editStudent" class="modal fade" role="dialog">
+<div id="addMail" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Chỉnh sửa thông tin sinh viên</h4>
-        <button type="button" class="closeform-btn"  class="close " data-dismiss="modal">&times;</button>
-       
+        <h4 class="modal-title">Soạn Mail</h4>
+        <button type="button" class="closeform-btn" class="close " data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-        <form action="" id="edit-student-form" >
+        <form id="add-staff-form" method="post" action="/api/sendmail" >
           <div class="form-group">
-            <label for="idStudent">Mã Sinh Viên</label>
-    
-            <input type="text" readonly name="idStudent" class="form-control form-control-border" >
+            <label for="id">Người nhận</label>
+            <input type="text" name="id" class="form-control form-control-border">
+          </div>
+         
+          <div class="form-group">
+            <label for="email">Tiêu đề</label>
+            <input type="text" name="header" class="form-control form-control-border">
           </div>
           <div class="form-group">
-            <label for="name">Họ Tên</label>
-            <input type="text" name="name" class="form-control form-control-border"  >
+            <label for="salary">Nội dung</label>
+            <textarea name="content" id="" class="form-control form-control-border" cols="30" rows="10"></textarea>
           </div>
-          <div class="form-group">
-            <label for="birthday">Ngày Sinh</label>
-            <input type="date" name="birthday" class="form-control form-control-border"  >
-          </div>
-          <div class="form-group">
-            <label for="address">Địa Chỉ</label>
-            <input type="text" name="address" class="form-control form-control-border"  >
-          </div>
-          <div class="form-group">
-            <label for="idClass">Mã Lớp</label>
-            <input type="text" name="idClass" class="form-control form-control-border"  >
-          </div>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
           <div class="card-footer">
-            <button type="submit"  class="btn btn-primary">Lưu</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </form>
       </div>
- 
     </div>
-
   </div>
 </div>
-
-<script>
-  function editStudentBtn(e){
-    var list = $(e).parents()[1].children;
-    var list2 = $("#edit-student-form input");
-    list2[0].value =list[0].textContent;
-    list2[1].value =list[1].textContent;
-    list2[2].value =list[2].textContent;
-    list2[3].value =list[3].textContent;
-    list2[4].value =list[4].textContent;
-  }
-</script>
-
-<script>
-  var form = $("#edit-student-form");
-  form.submit(function(e){
-    e.preventDefault();
-    $(function(){
-      var Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
-    });
-    $.ajax({
-           type: "POST",
-           url: '/api/editStudent',
-           beforeSend: function(xhr) {
-            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-          },
-           data: form.serialize(),
-           success: function(data){  
-             var res = data['isSuccess'];
-             if(res==true){
-                $(".closeform-btn").click();
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Cập nhật thành công'
-                });
-                var listData = form.serializeArray();
-                var id = listData[0]['value'];
-                var listTr = $("tr");
-       
-                for(var index = 1;index < listTr.length;index++){
-                  var temp = listTr[index];
-                  if(temp.children[0].textContent==id){
-                    for(var i=1;i<5;i++){
-                      temp.children[i].textContent = listData[i]['value'];
-                    }
-                    break;
-                  }
-                }
-                
-             } else if(res==false){
-              Toast.fire({
-                    icon: 'error',
-                    title: 'Cập nhật thất bại'
-                  })
-             } else{
-              Toast.fire({
-                    icon: 'warning',
-                    title: res
-                  })
-             }}})})})
-</script>
 <script src="{{ url_for('static',filename='plugins/toastr/toastr.min.js') }}"></script>
 <script src="{{ url_for('static',filename='plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ url_for('static',filename='plugins/jquery/jquery.min.js') }}"></script>
@@ -340,14 +290,6 @@
 <script src="{{ url_for('static',filename='plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
 <script src="{{ url_for('static',filename='plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ url_for('static',filename='plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-
-<script>
-  $(function () {
-    $("#example1_wrapper").DataTable({
-      "responsive": true, "lengthChange": true, "autoWidth": false
-    });
-  });
-</script>
 
 </body>
 </html>

@@ -90,9 +90,10 @@
               </p>
             </a>
           </li>
+          
           <li class="nav-item menu-open">
             <a href="/student" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-atom"></i>
               <p>
                 Quản lý sinh viên
                 <i class="right fas "></i>
@@ -101,7 +102,7 @@
           </li> 
           <li class="nav-item menu-open">
             <a href="/staff" class="nav-link ">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Quản lý nhân viên
                 <i class="right fas "></i>
@@ -110,7 +111,7 @@
           </li>
           <li class="nav-item menu-open">
             <a href="/class" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-school"></i>
               <p>
                 Quản lý lớp học
                 <i class="right fas "></i>
@@ -118,8 +119,26 @@
             </a>
           </li>
           <li class="nav-item menu-open">
+            <a href="/subject" class="nav-link">
+              <i class="nav-icon fas fa-book-reader"></i>
+              <p>
+                Quản lý học phần
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
+            <a href="/academy" class="nav-link ">
+              <i class="nav-icon fas fa-school"></i>
+              <p>
+                Bảng điểm
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
             <a href="/mail" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-envelope-open-text"></i>
               <p>
                 Mail
                 <i class="right fas "></i>
@@ -128,7 +147,7 @@
           </li>
           <li class="nav-item menu-open">
             <a href="/signout" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Đăng xuất
                 <i class="right fas "></i>
@@ -183,6 +202,7 @@
                       <th>Tên Lớp</th>
                       <th>Mã Nhân Viên</th>
                       <th>Chỉnh Sửa</th>
+                      <th>Xóa</th>
                     </tr>
                   </thead>
                   <tbody id='table-class'>
@@ -196,6 +216,12 @@
                             <i class="fas fa-pencil-alt">
                             </i>
                         </a>
+                        </td>
+                        <td>
+                          <a class="btn btn-danger btn-sm" onclick="deleteClassBtn(this)" data-toggle="modal" data-target="#deleteClass">
+                            <i class="fas fa-trash">
+                            </i>
+                          </a>
                         </td>
                     </tr>
                   {% endfor %}
@@ -217,6 +243,30 @@
     <div class="float-right d-none d-sm-inline-block">
     </div>
   </footer>
+</div>
+
+<div id="deleteClass" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="header-delteclass">Bạn có muốn xóa lớp </h4>
+        <button type="button" class="closeform-btn close"  data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-4">
+              <form id="deleteClassform">
+                <input type="hidden" name="id" value="" >
+                <button type="submit"  class="btn btn-default btn-primary" >Có</button>
+              </form>
+            </div>
+            <div class="col-4">
+              <button class="btn btn-info btn-primary" data-dismiss="modal"> Không </button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -357,7 +407,7 @@ $("#edit-staff-form").submit(function(e){
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000
-    });
+      });
   
     $.ajax({
            type: "POST",
@@ -386,6 +436,12 @@ $("#edit-staff-form").submit(function(e){
                             </i>
                         </a>
                         </td>
+                        <td>
+                          <a class="btn btn-danger btn-sm" onclick="deleteClassBtn(this)" data-toggle="modal" data-target="#deleteClass">
+                            <i class="fas fa-trash">
+                            </i>
+                          </a>
+                        </td>
                   </tr>
                 `);
        
@@ -400,8 +456,10 @@ $("#edit-staff-form").submit(function(e){
                     icon: 'warning',
                     title: res
                   })
-             }}})})})
+             }}})})
+             })
 </script>
+
 
 <script src="{{ url_for('static',filename='plugins/toastr/toastr.min.js') }}"></script>
 <script src="{{ url_for('static',filename='plugins/sweetalert2/sweetalert2.min.js') }}"></script>
@@ -433,6 +491,61 @@ $("#edit-staff-form").submit(function(e){
     });
   });
 </script>
-
+<script>
+  function deleteClassBtn(e){
+    var list = $(e).parents()[1].children;
+    $("#header-delteclass").html(`Bạn có muốn xóa lớp ${list[1].textContent} có mã là ${list[0].textContent}`);
+    $("#deleteClassform input")[0].value=list[0].textContent;
+  }
+  $("#deleteClassform").submit(function(e){
+    e.preventDefault();
+      $(function(){
+        var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+        });
+     
+        $.ajax({
+            type: "POST",
+            url: '/api/delClass',
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+            },
+            data: $("#deleteClassform").serialize(),
+            success: function(data){  
+              var res = data['isSuccess'];
+              if(res==true){
+                  $(".closeform-btn").click();
+                  Toast.fire({
+                      icon: 'success',
+                      title: 'Xóa thành công'
+                  });
+                  var id = $("#deleteClassform").serializeArray()[0]['value'];
+                  var listTr = $("tr");
+        
+                  for(var index = 1;index < listTr.length;index++){
+                    var temp = listTr[index];
+                    if(temp.children[0].textContent==id){
+                        $(temp).remove();
+                        break;
+                    }
+                  }
+              } else if(res==false){
+                Toast.fire({
+                      icon: 'error',
+                      title: 'Thất bại'
+                    })
+              } else{
+                Toast.fire({
+                      icon: 'warning',
+                      title: "!"
+                    })
+              }}
+          })
+        })
+      })
+</script>
 </body>
 </html>

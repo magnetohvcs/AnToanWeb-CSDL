@@ -4,9 +4,15 @@ from database import db
 web = Blueprint('web',__name__)
 
 @web.route('/', methods=['GET'])
-@web.route('/index', methods=['GET'])
+@web.route('/index',methods=['GET'])
 def index():
-    return render_template('index.html',data=db.getHistories())
+    if session['role']!='admin':
+        return redirect('/student')
+    return redirect('/admin')
+
+@web.route('/admin', methods=['GET'])
+def admin():
+    return render_template('admin.html',data=db.getHistories())
        
 @web.route('/student',methods=['GET'])
 def students():
@@ -23,6 +29,10 @@ def classes():
 @web.route('/mail',methods=['GET'])
 def mail():
     return render_template('mail.html',data=db.getMails(session['user']))
+
+@web.route('/subject',methods=['GET'])
+def subject():
+    return render_template('subject.html',data=db.getSubjects())
 
 @web.route('/signout')
 def logout():

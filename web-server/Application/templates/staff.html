@@ -88,18 +88,20 @@
                 </p>
               </a>
             </li>
+        
             <li class="nav-item menu-open">
               <a href="/student" class="nav-link ">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="nav-icon fas fa-atom"></i>
                 <p>
                   Quản lý sinh viên
                   <i class="right fas "></i>
                 </p>
               </a>
             </li>
+           
             <li class="nav-item menu-open">
               <a href="/staff" class="nav-link active">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="nav-icon fas fa-users"></i>
                 <p>
                   Quản lý nhân viên
                   <i class="right fas "></i>
@@ -108,7 +110,7 @@
             </li>
             <li class="nav-item menu-open">
               <a href="/class" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="nav-icon fas fa-school"></i>
                 <p>
                   Quản lý lớp học
                   <i class="right fas "></i>
@@ -116,17 +118,36 @@
               </a>
             </li>
             <li class="nav-item menu-open">
+              <a href="/subject" class="nav-link">
+                <i class="nav-icon fas fa-book-reader"></i>
+                <p>
+                  Quản lý học phần
+                  <i class="right fas "></i>
+                </p>
+              </a>
+            </li>
+            <li class="nav-item menu-open">
+              <a href="/academy" class="nav-link ">
+                <i class="nav-icon fas fa-school"></i>
+                <p>
+                  Bảng điểm
+                  <i class="right fas "></i>
+                </p>
+              </a>
+            </li>
+            <li class="nav-item menu-open">
               <a href="/mail" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="nav-icon fas fa-envelope-open-text"></i>
                 <p>
                   Mail
                   <i class="right fas "></i>
                 </p>
               </a>
             </li>
+        
             <li class="nav-item menu-open">
               <a href="/signout" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
                   Đăng xuất
                   <i class="right fas "></i>
@@ -143,12 +164,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Quản lý sinh viên</h1>
+              <h1 class="m-0">Quản lý nhân viên</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                <li class="breadcrumb-item active">Quản lý sinh viên</li>
+                <li class="breadcrumb-item active">Quản lý nhân viên</li>
               </ol>
             </div>
           </div>
@@ -178,18 +199,25 @@
                         <th>Lương</th>
                         <th>Tên Đăng Nhập</th>
                         <th>Chỉnh Sửa</th>
+                        <th>Xóa</th>
                       </tr>
                     </thead>
                     <tbody id='table-staff'>
                       {% for value in data %}
                       <tr>
                         {% for v in value%}
-                        <td>{{"Trống" if v==None else v}}</td>
+                        <td>{{"" if v==None else v}}</td>
                         {% endfor %}
                         <td>
                           <a class="btn btn-info btn-sm" onclick="editStaffBtn(this)" data-toggle="modal"
                             data-target="#editStaff">
                             <i class="fas fa-pencil-alt">
+                            </i>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="btn btn-danger btn-sm" onclick="deleteClassBtn(this)" data-toggle="modal" data-target="#deleteClass">
+                            <i class="fas fa-trash">
                             </i>
                           </a>
                         </td>
@@ -205,9 +233,7 @@
       </div>
     </div>
 
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
-
+    <aside class="control-sidebar control-sidebar-dark"></aside>
     <footer class="main-footer">
       <strong> <a href="/">Quản lý sinh viên</a>.</strong>
       <div class="float-right d-none d-sm-inline-block">
@@ -215,6 +241,87 @@
     </footer>
   </div>
 
+  <div id="deleteClass" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="header-delteclass"> </h4>
+          <button type="button" class="closeform-btn close"  data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <div class="col-4">
+                <form id="deleteClassform">
+                  <input type="hidden" name="id" value="" >
+                  <button type="submit"  class="btn btn-default btn-primary" >Có</button>
+                </form>
+              </div>
+              <div class="col-4">
+                <button class="btn btn-info btn-primary" data-dismiss="modal"> Không </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function deleteClassBtn(e){
+      var list = $(e).parents()[1].children; //errror
+
+ 
+      $("#header-delteclass").html(`Bạn có muốn xóa nhân viên ${list[1].textContent} có mã là ${list[0].textContent}`);
+      $("#deleteClassform input")[0].value=list[0].textContent;
+    }
+    $("#deleteClassform").submit(function(e){
+      e.preventDefault();
+        $(function(){
+          var Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
+          });
+       
+          $.ajax({
+              type: "POST",
+              url: '/api/delStaff',
+              beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+              },
+              data: $("#deleteClassform").serialize(),
+              success: function(data){  
+                var res = data['isSuccess'];
+                if(res==true){
+                    $(".closeform-btn").click();
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Xóa thành công'
+                    });
+                    var id = $("#deleteClassform").serializeArray()[0]['value'];
+                    var listTr = $("tr");
+          
+                    for(var index = 1;index < listTr.length;index++){
+                      var temp = listTr[index];
+                      if(temp.children[0].textContent==id){
+                          $(temp).remove();
+                          break;
+                      }
+                    }
+                } else if(res==false){
+                  Toast.fire({
+                        icon: 'error',
+                        title: 'Thất bại'
+                      })
+                } else{
+                  Toast.fire({
+                        icon: 'warning',
+                        title: "!"
+                      })
+                }}
+            })
+          })
+        })
+  </script>
   <!-- Modal -->
   <div id="addStaff" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -261,7 +368,72 @@
       </div>
     </div>
   </div>
-
+  <script>
+  
+    $("#add-staff-form").submit(function (e) {
+        e.preventDefault();
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+          });
+          $.ajax({
+            type: "POST",
+            url: '/api/addStaff',
+            data: $("#add-staff-form").serialize(),
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+            },
+            success: function (data) {
+              var res = data['isSuccess'];
+              if (res == true) {
+                $(".closeform-btn").click();
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Cập nhật thành công'
+                });
+                var listData = $("#add-staff-form").serializeArray();
+                $("#table-staff").append(`
+                <tr>
+                        <td>${listData[0].value}</td>
+                        <td>${listData[1].value}</td>
+                        <td>${listData[2].value}</td>
+                        <td>${listData[3].value}</td>
+                        <td>${listData[4].value}</td>
+                        <td>
+                          <a class="btn btn-info btn-sm" onclick="editStaffBtn(this)" data-toggle="modal"
+                            data-target="#editStaff">
+                            <i class="fas fa-pencil-alt">
+                            </i>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="btn btn-danger btn-sm" onclick="deleteClassBtn(this)" data-toggle="modal" data-target="#deleteClass">
+                            <i class="fas fa-trash">
+                            </i>
+                          </a>
+                        </td>
+                `);
+  
+                
+              } else if (res == false) {
+                Toast.fire({
+                  icon: 'error',
+                  title: 'Cập nhật thất bại'
+                })
+              } else {
+                Toast.fire({
+                  icon: 'warning',
+                  title: res
+                })
+              }
+            }
+          })
+        })
+      })
+    </script>
   <!-- Modal -->
   <div id="editStaff" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -312,70 +484,10 @@
     }
   </script>
 
+ 
   <script>
-
-$("#add-staff-form").submit(function (e) {
-      e.preventDefault();
-      $(function () {
-        var Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000
-        });
-        console.log( $("#add-staff-form").serialize());
-        $.ajax({
-          type: "POST",
-          url: '/api/addStaff',
-          beforeSend: function(xhr) {
-            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-          },
-          data: $("#add-staff-form").serialize(),
-          success: function (data) {
-            var res = data['isSuccess'];
-            if (res == true) {
-              $(".closeform-btn").click();
-              Toast.fire({
-                icon: 'success',
-                title: 'Cập nhật thành công'
-              });
-              var listData = $("#add-staff-form").serializeArray();
-              $("#table-staff").append(`
-               <tr >
-                        <td class="dtr-control" tabindex="0">${listData[0].value}</td>
-                        <td>${listData[1].value}</td>
-                        <td>${listData[2].value}</td> 
-                        <td>${listData[3].value}</td>                    
-                        <td>${listData[0].value}</td>                     
-                      <td class="sorting_1">
-                        <a class="btn btn-info btn-sm" onclick="editStaffBtn(this)" data-toggle="modal" data-target="#editStaff">
-                          <i class="fas fa-pencil-alt">
-                          </i>
-                      </a>
-                      </td>
-                  </tr>
-                `);
-              
-            } else if (res == false) {
-              Toast.fire({
-                icon: 'error',
-                title: 'Cập nhật thất bại'
-              })
-            } else {
-              Toast.fire({
-                icon: 'warning',
-                title: res
-              })
-            }
-          }
-        })
-      })
-    })
-  </script>
-
-  <script>
-    var form = $("#edit-staff-form");
-    form.submit(function (e) {
+  
+  $("#edit-staff-form").submit(function (e) {
       e.preventDefault();
       $(function () {
         var Toast = Swal.mixin({
@@ -387,7 +499,7 @@ $("#add-staff-form").submit(function (e) {
         $.ajax({
           type: "POST",
           url: '/api/editStaff',
-          data: form.serialize(),
+          data: $("#edit-staff-form").serialize(),
           beforeSend: function(xhr) {
             xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
           },
@@ -399,7 +511,7 @@ $("#add-staff-form").submit(function (e) {
                 icon: 'success',
                 title: 'Cập nhật thành công'
               });
-              var listData = form.serializeArray();
+              var listData = $("#edit-staff-form").serializeArray();
               var id = listData[0]['value'];
               var listTr = $("tr");
 

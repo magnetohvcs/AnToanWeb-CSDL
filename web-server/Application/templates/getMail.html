@@ -83,9 +83,10 @@
               </p>
             </a>
           </li>
+  
           <li class="nav-item menu-open">
             <a href="/student" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-atom"></i>
               <p>
                 Quản lý sinh viên
                 <i class="right fas "></i>
@@ -94,7 +95,7 @@
           </li> 
           <li class="nav-item menu-open">
             <a href="/staff" class="nav-link ">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Quản lý nhân viên
                 <i class="right fas "></i>
@@ -103,7 +104,7 @@
           </li>
           <li class="nav-item menu-open">
             <a href="/class" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-school"></i>
               <p>
                 Quản lý lớp học
                 <i class="right fas "></i>
@@ -111,8 +112,26 @@
             </a>
           </li>
           <li class="nav-item menu-open">
+            <a href="/subject" class="nav-link">
+              <i class="nav-icon fas fa-book-reader"></i>
+              <p>
+                Quản lý học phần
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
+            <a href="/academy" class="nav-link ">
+              <i class="nav-icon fas fa-school"></i>
+              <p>
+                Bảng điểm
+                <i class="right fas "></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item menu-open">
             <a href="/mail" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-envelope-open-text"></i>
               <p>
                 Mail
                 <i class="right fas "></i>
@@ -121,7 +140,7 @@
           </li>
           <li class="nav-item menu-open">
             <a href="/signout" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Đăng xuất
                 <i class="right fas "></i>
@@ -160,47 +179,23 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Mail 
-                  <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#addMail">
-                    <i class="fas fa-plus">
-                      Soạn Mail
-                    </i>
-                  </a>
-                </h3>
+                <h3 class="card-title">Mail</h3>
               </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm">
-                    Người gửi
-                  </div>
-                  <div class="col-sm">
-                    Người nhận
-                  </div>
-                  <div class="col-sm">
-                   Tiêu đề
-                  </div>
-                  <div class="col-sm">
-                    Thời gian
-                   </div>
-                </div>
-                    {% for value in data %}
-                    <a href="/api/mail/{{value[0]}}">
-                      <div class="row">
-                        <div class="col-sm">
-                          {{value[1]}}
-                        </div>
-                        <div class="col-sm">
-                          {{value[2]}}
-                        </div>
-                        <div class="col-sm">
-                          {{value[3]}}
-                        </div>
-                        <div class="col-sm">
-                          {{value[4]}}
-                         </div>
+              <div class="card-body">  
+                     <div style="margin-left: 20%;">
+                      <div class="row" style="margin-top: 5%;">
+                        <label for="">Người gửi</label>  <h2 style="margin-left: 50px;">{{data[0]}}</h2>
                       </div>
-                    </a>
-                    {% endfor %}
+                      <div class="row" style="margin-top: 5%;">
+                       <label for=""> Người nhận</label> <h2 style="margin-left: 50px;">{{data[1]}}</h2>
+                      </div>
+                      <div class="row" style="margin-top: 5%;">
+                        <label for="">Tiêu đề </label><h5 style="margin-left: 50px;"> {{data[2]}}</h5>
+                      </div>
+                      <div class="row" style="margin-top: 5%;">
+                       <label for=""> Nội dung </label><h6 style="margin-left: 50px;">{{data[3]}}</h6>
+                      </div>
+                     </div>
               </div>
             </div>
           </div>
@@ -218,38 +213,6 @@
   </footer>
 </div>
 
-<div id="addMail" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Soạn Mail</h4>
-        <button type="button" class="closeform-btn" class="close " data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="add-staff-form">
-          <div class="form-group">
-            <label for="id">Người nhận</label>
-            <input type="text" name="id" class="form-control form-control-border">
-          </div>
-         
-          <div class="form-group">
-            <label for="email">Tiêu đề</label>
-            <input type="text" name="header" class="form-control form-control-border">
-          </div>
-          <div class="form-group">
-            <label for="salary">Nội dung</label>
-            <textarea name="content" id="" class="form-control form-control-border" cols="30" rows="10"></textarea>
-          </div>
-    
-          <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Lưu</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 <script src="{{ url_for('static',filename='plugins/toastr/toastr.min.js') }}"></script>
 <script src="{{ url_for('static',filename='plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ url_for('static',filename='plugins/jquery/jquery.min.js') }}"></script>

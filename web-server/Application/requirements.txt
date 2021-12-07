@@ -3,3 +3,5 @@ flask
 apache-airflow
 Flask-WTF
 flask_limiter
+flask_mail
+requests

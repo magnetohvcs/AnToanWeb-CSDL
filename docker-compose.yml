@@ -1,0 +1,27 @@
+version: "3.3"
+networks:
+  SecureWebAppDb: 
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/8
+    driver_opts:
+      com.docker.network.bridge.name: SecureWebAppDb
+services:     
+    dbsqlserver:
+      build: SQL-server
+      networks:
+        SecureWebAppDb:
+           ipv4_address: 10.0.0.20
+      ports: 
+        - "1433:1433"
+      container_name: mssql2019    
+    web:
+      build: web-server
+      ports:
+      -  "80:80"
+      networks:
+        SecureWebAppDb:
+           ipv4_address: 10.0.0.10  
+      container_name: WebApp   
+      
